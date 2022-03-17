@@ -8,6 +8,7 @@ const state = Vue.observable(
       series: [],
       baseURL: 'https://api.themoviedb.org/3',
       apiKey: '69c0e1da6ac95a6109dd23110160ecd2',
+      thumbURL: 'https://image.tmdb.org/t/p/'
    }
 );
 
