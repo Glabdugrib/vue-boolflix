@@ -68,7 +68,13 @@ export default {
    padding: 0;
 }
 
+.img {
+   display: block;
+}
 
+ul {
+   list-style: none;
+}
 
 .container {
    padding: 0 60px;
