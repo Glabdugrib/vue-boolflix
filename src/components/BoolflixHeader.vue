@@ -16,8 +16,7 @@
          </nav>
          <div class="controls">
             <div class="searchbar">
-               <input type="text" v-model="search" @keyup.enter="setSearch">
-               <button @click="setSearch">Search</button>
+               <input type="text" v-model="search" placeholder="Titles, people, genres">
             </div>
             <div class="notifications-btn">
                <i class="fa-solid fa-bell"></i>
@@ -44,9 +43,9 @@ export default {
       }
    },
    watch: {
-      // search: function(value) {
-      //    this.fetchData();
-      // }
+      search: function() {
+         this.setSearch();
+      }
    },
    methods: {
       setSearch: function() {
@@ -117,8 +116,25 @@ export default {
          align-items: center;
          gap: 25px;
 
-         .notifications-btn i {
-            font-size: 22px;
+         .searchbar {
+
+            input {
+               // border: 1px solid white;
+               // background-color: black;
+               border: none;
+               padding: 6px 12px;
+               border-radius: 5px;
+               // width: 160px;
+            }
+            
+            input:focus-visible {
+               outline: none;
+            }
+         }
+
+         .notifications-btn {
+            font-size: 20px;
+            cursor: pointer;
          }
 
          .account-btn {
@@ -126,6 +142,7 @@ export default {
             align-items: center;
             gap: 10px;
             font-size: 14px;
+            cursor: pointer;
 
             .account-logo {
                aspect-ratio: 1;
@@ -136,6 +153,21 @@ export default {
                img {
                   display: block;
                   max-height: 100%;
+               }
+            }
+
+            &:hover i {
+               animation-name: rotateUp;
+               animation-duration: 0.3s;
+               animation-fill-mode: forwards;
+            }
+
+            @keyframes rotateUp {
+               from {
+                  transform: rotate(0deg);
+               }
+               to {
+                  transform: rotate(180deg);
                }
             }
          }

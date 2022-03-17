@@ -1,6 +1,7 @@
 <template>
    <div class="card">
-      <img :src="thumb + element.poster_path" alt="" class="card-thumb">
+      <img v-if="element.poster_path" :src="thumb + element.poster_path" alt="" class="card-thumb">
+      <h3 v-if="!element.poster_path" class="card_missing-thumb">{{ title }}</h3>
       <div class="card-info">
          <h3 class="card-info__title">{{ title }}</h3>
          <!-- <p class="card-info__original-title">{{ originalTitle }}</p> -->
@@ -18,7 +19,9 @@
             </span>
             <span v-for="n in ( 5 - Math.ceil(vote) )" :key="`blankStar-${n}`"><i class="fa-regular fa-star"></i></span>
          </p>
-         <p class="card-info__overview">{{ element.overview }}</p>
+         <div class="card-info__desc">
+            <p class="card-info__overview">{{ element.overview }}</p>
+         </div>
       </div>
    </div>
 </template>
@@ -77,15 +80,26 @@ export default {
    flex-shrink: 0;
    position: relative;
    // border: 1px solid black;
-   background-color: green;
-   border-radius: 5px;
+   background-color: rgba($color: black, $alpha: 0.5);
+   border-radius: 10px;
    overflow: hidden;
    cursor: pointer;
+   // box-shadow: 1px 1px 2px rgba($color: white, $alpha: 0.1);
+   transition: opacity 0.3s ease-in-out;
 
-   .flag {
-      aspect-ratio: 1;
-      width: 15px;
+   .card_missing-thumb {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      color: rgba($color: white, $alpha: 0.8);
+      text-align: center;
    }
+
+   // .flag {
+   //    aspect-ratio: 1;
+   //    width: 15px;
+   // }
 
    .card-thumb {
       height: 100%;
@@ -95,24 +109,28 @@ export default {
    }
 
    .card-info {
-      display: none;
+      // display: none;
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       background-color: rgba($color: #000000, $alpha: 0.8);
-      color: white;
+      color: rgba($color: white, $alpha: 0.8);;
       padding: 30px 10px;
       text-align: center;
       overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
 
       .card-info__title {
-         margin-bottom: 10px;
+         margin-bottom: 15px;
       }
 
       .card-info__rating {
-         margin-bottom: 15px;
+         margin-bottom: 20px;
          font-size: 10px;
          display: flex;
          gap: 3px;
@@ -137,14 +155,29 @@ export default {
          }
       }
 
+      .card-info__desc {
+         flex-grow: 1;
+         // background: green;
+         overflow-y: auto;
+      }
+
+      .card-info__desc::-webkit-scrollbar {
+         display: none;
+      }
+
       .card-info__overview {
          color: rgba($color: white, $alpha: 0.7);
          font-size: 14px;
+         // overflow-y: scroll;
       }
    }
 
    &:hover .card-info {
-      display: block;
+      opacity: 1;
+   }
+
+   &:hover .card_missing-thumb {
+      opacity: 0;
    }
 }
 

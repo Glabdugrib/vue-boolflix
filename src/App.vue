@@ -4,17 +4,23 @@
       <main>
          <!-- <h2>Movies</h2> -->
          <div class="container">
-            <div class="row">
-               <Card v-for="movie in movies" :key="movie.id" :element="movie"/>
-            </div>
+            <section class="movie-section" v-if="movies.length > 0">
+               <h2 class="section-title">Movies</h2>
+               <div class="card-wrapper">
+                  <Card v-for="movie in movies" :key="movie.id" :element="movie"/>
+               </div> 
+            </section>
             
          </div>
 
          <!-- <h2>TV Series</h2> -->
          <div class="container">
-            <div class="row">
-               <Card v-for="serie in series" :key="serie.id" :element="serie"/>
-            </div>
+            <section class="movie-section" v-if="series.length > 0">
+               <h2 class="section-title">TV Series</h2>
+               <div class="card-wrapper">
+                  <Card v-for="serie in series" :key="serie.id" :element="serie"/>
+               </div> 
+            </section>
          </div>
       </main>
       
@@ -80,12 +86,38 @@ ul {
    padding: 0 60px;
    margin: 0 auto;
 
-   .row {
-      padding: 20px 0;
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
+   .movie-section {
+      padding-top: 20px;
       margin-bottom: 30px;
+
+      .section-title {
+         font-size: 26px;
+         font-weight: bold;
+         color: rgba($color: white, $alpha: 0.9);
+      }
+
+      .card-wrapper {
+         display: flex;
+         gap: 10px;
+         overflow-x: auto;
+         padding: 20px 0;
+
+         &::-webkit-scrollbar {
+         height: 10px;
+         }
+         &::-webkit-scrollbar-track {
+            background: rgba($color: black, $alpha: 0.3);
+            border-radius: 10px;
+         }
+         &::-webkit-scrollbar-thumb {
+            background: rgba($color: white, $alpha: 0.1);
+            border-radius: 10px;
+         }
+         &::-webkit-scrollbar-thumb:hover {
+            background: rgba($color: white, $alpha: 0.2);
+            // cursor: pointer;
+         }
+      } 
    }
 }
 </style>
