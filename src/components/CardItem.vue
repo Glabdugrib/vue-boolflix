@@ -4,22 +4,27 @@
       <h3 v-if="!element.poster_path" class="card_missing-thumb">{{ title }}</h3>
       <div class="card-info">
          <h3 class="card-info__title">{{ title }}</h3>
-         <!-- <p class="card-info__original-title">{{ originalTitle }}</p> -->
-         <!-- <p>{{ getFlag( element.original_language ) }}</p> -->
-         <!-- <p class="card-info__lang" v-if="flags[ element.original_language ]">
-            <img class="flag" :src="flags[ element.original_language ]" alt="">
-         </p>
-         <p v-else>{{ element.original_language }}</p> -->
-         <p class="card-info__rating">
-            <span v-for="n in ( Math.floor(vote) )" :key="`fullStar-${n}`"><i class="fa-solid fa-star"></i></span>
-            <span v-if="vote - Math.floor(vote) > 0">
-               <i class="fa-regular fa-star">
-                  <i class="fa-solid fa-star-half"></i>
-               </i>
-            </span>
-            <span v-for="n in ( 5 - Math.ceil(vote) )" :key="`blankStar-${n}`"><i class="fa-regular fa-star"></i></span>
-         </p>
+         <hr>
          <div class="card-info__desc">
+            <p class="card-info__date">{{ year }}</p>
+            <p class="card-info__genres"><strong>Genres: </strong>{{ element.genre_ids.join(', ') }}</p>
+            <!-- <p class="card-info__original-title">{{ originalTitle }}</p> -->
+            <!-- <p>{{ getFlag( element.original_language ) }}</p> -->
+            <!-- <p class="card-info__lang" v-if="flags[ element.original_language ]">
+               <img class="flag" :src="flags[ element.original_language ]" alt="">
+            </p>
+            <p v-else>{{ element.original_language }}</p> -->
+            <p class="card-info__rating">
+               <span v-for="n in ( Math.floor(vote) )" :key="`fullStar-${n}`"><i class="fa-solid fa-star"></i></span>
+               <span v-if="vote - Math.floor(vote) > 0">
+                  <i class="fa-regular fa-star">
+                     <i class="fa-solid fa-star-half"></i>
+                  </i>
+               </span>
+               <span v-for="n in ( 5 - Math.ceil(vote) )" :key="`blankStar-${n}`"><i class="fa-regular fa-star"></i></span>
+            </p>
+            <p v-if="cast" class="card-info__genres"><strong>Cast: </strong>{{ castString }}</p>
+            <hr>
             <p class="card-info__overview">{{ element.overview }}</p>
          </div>
       </div>
@@ -37,6 +42,9 @@ export default {
       element: {
          type: Object,
          required: true
+      },
+      cast: {
+         type: Array
       }
    },
    computed: {
@@ -51,6 +59,25 @@ export default {
       },
       vote: function() {
          return Math.round( this.element.vote_average ) / 2; //mantiene .5 di precisione
+      },
+      year: function() {
+         let year = this.element.release_date || this.element.first_air_date;
+         if(year !== undefined && year.length >= 4) {
+            year = year.substring(0,4);
+         } else {
+            year = '';
+         }
+         return year;
+      },
+      castString: function() {
+         let string = '';
+         this.cast.forEach( (el,i) => {
+            string += el.name;
+            if( i < this.cast.length - 1 ) {
+               string += ', ';
+            }
+         });
+         return string;
       }
    },
    data() {
@@ -68,7 +95,7 @@ export default {
             return getUnicodeFlagIcon(unicode);
          }
          return unicode
-      },
+      }
    }
 }
 </script>
@@ -117,7 +144,7 @@ export default {
       bottom: 0;
       background-color: rgba($color: #000000, $alpha: 0.8);
       color: rgba($color: white, $alpha: 0.8);;
-      padding: 30px 10px;
+      padding: 30px 20px;
       text-align: center;
       overflow: hidden;
       opacity: 0;
@@ -125,19 +152,33 @@ export default {
       display: flex;
       flex-direction: column;
 
+      hr {
+         border: none;
+         border-top: 1px solid #FF1818;
+         margin-bottom: 10px;
+      }
+
       .card-info__title {
-         margin-bottom: 15px;
+         margin-bottom: 10px;
+      }
+
+      .card-info__date {
+         margin-bottom: 10px;
+      }
+
+      .card-info__genres {
+         margin-bottom: 10px;
       }
 
       .card-info__rating {
-         margin-bottom: 20px;
-         font-size: 10px;
+         margin-bottom: 15px;
+         font-size: 12px;
          display: flex;
          gap: 3px;
          justify-content: center;
 
          .fa-solid.fa-star {
-            color: goldenrod;
+            color: #FF1818;
          }
 
          .fa-regular.fa-star {
@@ -150,7 +191,7 @@ export default {
                top: 0;
                left: 0;
                z-index: 0;
-               color: goldenrod;
+               color: #FF1818;
             }
          }
       }

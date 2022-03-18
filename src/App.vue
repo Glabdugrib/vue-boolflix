@@ -7,7 +7,7 @@
             <section class="movie-section" v-if="movies.length > 0">
                <h2 class="section-title">Movies</h2>
                <div class="card-wrapper">
-                  <Card v-for="movie in movies" :key="movie.id" :element="movie"/>
+                  <Card v-for="(movie,i) in movies" :key="movie.id" :element="movie" :cast="moviesCast[i]"/>
                </div> 
             </section>
             
@@ -18,7 +18,7 @@
             <section class="movie-section" v-if="series.length > 0">
                <h2 class="section-title">TV Series</h2>
                <div class="card-wrapper">
-                  <Card v-for="serie in series" :key="serie.id" :element="serie"/>
+                  <Card v-for="(serie,i) in series" :key="serie.id" :element="serie" :cast="seriesCast[i]"/>
                </div> 
             </section>
          </div>
@@ -48,7 +48,13 @@ export default {
       },
       search: function() {
          return state.search;
-      }
+      },
+      moviesCast: function() {
+         return state.moviesCast;
+      },
+      seriesCast: function() {
+         return state.seriesCast;
+      },
    }
 }
 </script>
@@ -103,7 +109,7 @@ ul {
          padding: 20px 0;
 
          &::-webkit-scrollbar {
-         height: 10px;
+         height: 8px;
          }
          &::-webkit-scrollbar-track {
             background: rgba($color: black, $alpha: 0.3);

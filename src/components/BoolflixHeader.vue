@@ -34,7 +34,7 @@
 
 <script>
 import state from '../store.js';
-import { fetchData } from '../store.js';
+import { fetchData } from '../store.js'; //import per le funzioni nello store.js
 
 export default {
    data() {
