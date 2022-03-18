@@ -7,7 +7,7 @@
          <hr>
          <div class="card-info__desc">
             <p class="card-info__date">{{ year }}</p>
-            <p class="card-info__genres"><strong>Genres: </strong>{{ element.genre_ids.join(', ') }}</p>
+            <p class="card-info__genres"><strong>Genres: </strong>{{ genres.join(', ') }}</p>
             <!-- <p class="card-info__original-title">{{ originalTitle }}</p> -->
             <!-- <p>{{ getFlag( element.original_language ) }}</p> -->
             <!-- <p class="card-info__lang" v-if="flags[ element.original_language ]">
@@ -78,6 +78,19 @@ export default {
             }
          });
          return string;
+      },
+      genres: function() {
+         const genresArray = [];
+
+         for(let i=0; i < this.element.genre_ids.length; i++) {
+            for(let j=0; j < state.moviesGenres.length; j++) {
+               if(this.element.genre_ids[i] == state.moviesGenres[j].id) {
+                  genresArray.push(state.moviesGenres[j].name);
+               }
+            }
+         }
+
+         return genresArray;
       }
    },
    data() {
@@ -159,7 +172,7 @@ export default {
       }
 
       .card-info__title {
-         margin-bottom: 10px;
+         margin-bottom: 15px;
       }
 
       .card-info__date {

@@ -6,8 +6,10 @@ const state = Vue.observable(
       search: '',
       movies: [],
       moviesCast: [],
+      moviesGenres: [],
       series: [],
       seriesCast: [],
+      seriesGenres: [],
       baseURL: 'https://api.themoviedb.org/3',
       apiKey: '69c0e1da6ac95a6109dd23110160ecd2',
       thumbURL: 'https://image.tmdb.org/t/p/'
@@ -30,6 +32,7 @@ export function fetchData() {
       console.log(res.data)
       state.movies = res.data.results;
       fetchMovieCast();
+      fetchMovieGenres()
    })
    .catch( err => {
       console.warn( err.response )
@@ -48,6 +51,7 @@ export function fetchData() {
       console.log(res.data)
       state.series = res.data.results;
       fetchSerieCast();
+      fetchSerieGenres()
    })
    .catch( err => {
       console.warn( err.response )
@@ -103,5 +107,37 @@ export function fetchSerieCast() {
       })  
    });
 
-   console.log( state.seriesCast );
+   // console.log( state.seriesCast );
+}
+
+export function fetchMovieGenres() {
+   axios.get(`${ state.baseURL }/genre/movie/list`, {
+      params: {
+         api_key: state.apiKey
+      }
+   })
+   .then( res => {
+      // console.log( res.data );
+      state.moviesGenres = res.data.genres;
+      // console.log( state.moviesGenres );
+   })
+   .catch( err => {
+      console.warn( err.response );
+   })
+}
+
+export function fetchSerieGenres() {
+   axios.get(`${ state.baseURL }/genre/tv/list`, {
+      params: {
+         api_key: state.apiKey
+      }
+   })
+   .then( res => {
+      // console.log( res.data );
+      state.seriesGenres = res.data.genres;
+      // console.log( state.seriesGenres );
+   })
+   .catch( err => {
+      console.warn( err.response );
+   })
 }
